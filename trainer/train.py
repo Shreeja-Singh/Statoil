@@ -2,12 +2,10 @@ import tensorflow as tf
 import read
 import convnet
 
-logs_path = '/tmp/statoil/1'
-
 
 with tf.Graph().as_default():
 
-    image_data, label_data = read.preprocess()
+    image_data, label_data = read.preprocess(file = os.path.join(data_dir, 'data', 'train.json'))
 
 #training    
     X = tf.placeholder(dtype = tf.float64)
@@ -40,7 +38,7 @@ with tf.Graph().as_default():
     with tf.Session() as sess:
         sess.run(tf.global_variables_initializer())
         
-        writer = tf.summary.FileWriter(logs_path, graph=tf.get_default_graph())
+        writer = tf.summary.FileWriter(output_dir, graph=tf.get_default_graph())
         
         for i in range(20000):
             
@@ -50,7 +48,7 @@ with tf.Graph().as_default():
             
             if i % 500 == 0:
                 
-                saver.save(sess)
+                saver.save(sess,output_dir, global_step = i)
                 
             if i % 50 == 1:
                cost, acc, summary = sess.run([loss, accuracy, summary_ops])
