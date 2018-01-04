@@ -2,9 +2,6 @@ import json
 import sys
 import numpy as np
 
-file = 'train.json'
-
-
 
 def preprocess(file):
     
