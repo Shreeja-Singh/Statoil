@@ -40,7 +40,7 @@ with tf.Graph().as_default():
         
         writer = tf.summary.FileWriter(output_dir, graph=tf.get_default_graph())
         
-        for i in range(20000):
+        for i in range(50000):
             
             batch = read.batch(mode = 'train', step = i, images = image_data, labels  = label_data)
             images, labels = batch.batches()
