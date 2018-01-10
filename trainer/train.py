@@ -1,6 +1,20 @@
 import tensorflow as tf
 import read
 import convnet
+import os
+import argparse
+
+parser = argparse.ArgumentParser()
+
+parser.add_argument('--data_dir', help='GCS or local path to training data', required=True)
+parser.add_argument('--output_dir', help='GCS or local path to output log', required=True)
+parser.add_argument('--job_dir', help='GCS or local path job dir', default='junk')
+
+args = parser.parse_args()
+arguments = args.__dict__
+
+data_dir = os.path.join(os.getcwd(), arguments['data_dir'])
+output_dir = os.path.join(os.getcwd(), arguments['output_dir'])
 
 
 with tf.Graph().as_default():
