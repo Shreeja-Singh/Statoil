@@ -19,7 +19,7 @@ output_dir = os.path.join(os.getcwd(), arguments['output_dir'])
 
 with tf.Graph().as_default():
 
-    image_data, label_data = read.preprocess(file = os.path.join(data_dir, 'data', 'train.json'))
+    image_data, label_data = read.preprocess(file = os.path.join(data_dir,'train.json'))
 
 #training    
     X = tf.placeholder(dtype = tf.float64)
