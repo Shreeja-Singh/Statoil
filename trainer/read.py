@@ -31,7 +31,7 @@ def preprocess(file):
  
 class batch():
     
-    def __init__(self, mode = 'train', step, images, labels):
+    def __init__(self, step, images, labels, mode = 'train'):
 
         self.mode = 'train'
         self.step = step
