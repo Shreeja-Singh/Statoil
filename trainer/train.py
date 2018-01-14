@@ -10,8 +10,9 @@ parser.add_argument('--data_dir', help='GCS or local path to training data', req
 parser.add_argument('--output_dir', help='GCS or local path to output log', required=True)
 parser.add_argument('--job_dir', help='GCS or local path job dir', default='junk')
 
-args, unknown = parser.parse_args()
+args = parser.parse_args()
 arguments = args.__dict__
+arguments.pop('job_dir', None)
 
 data_dir = arguments['data_dir']
 output_dir = arguments['output_dir']
