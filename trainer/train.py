@@ -10,11 +10,11 @@ parser.add_argument('--data_dir', help='GCS or local path to training data', req
 parser.add_argument('--output_dir', help='GCS or local path to output log', required=True)
 parser.add_argument('--job_dir', help='GCS or local path job dir', default='junk')
 
-args, unknown = parser.parse_known_args()
+args, unknown = parser.parse_args()
 arguments = args.__dict__
 
-data_dir = os.path.join(os.getcwd(), arguments['data_dir'])
-output_dir = os.path.join(os.getcwd(), arguments['output_dir'])
+data_dir = arguments['data_dir']
+output_dir = arguments['output_dir']
 
 
 with tf.Graph().as_default():

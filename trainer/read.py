@@ -1,12 +1,14 @@
 import json
 import sys
 import numpy as np
-
+from tensorflow.python.lib.io import file_io
 
 def preprocess(file):
     
     np.random.seed(seed = 42)
-    data = json.load(open(file))
+    gcs_path = file_io.FileIO(file, 'r')
+    
+    json_data = json.load(gcs_path)
 
     images = []
     labels = []
