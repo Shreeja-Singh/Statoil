@@ -8,11 +8,11 @@ parser = argparse.ArgumentParser()
 
 parser.add_argument('--data_dir', help='GCS or local path to training data', required=True)
 parser.add_argument('--output_dir', help='GCS or local path to output log', required=True)
-parser.add_argument('--job_dir', help='GCS or local path job dir', default='junk')
+parser.add_argument('--job-dir', help='GCS or local path job dir', default='junk')
 
 args = parser.parse_args()
 arguments = args.__dict__
-arguments.pop('job_dir', None)
+arguments.pop('job-dir', None)
 
 data_dir = arguments['data_dir']
 output_dir = arguments['output_dir']
