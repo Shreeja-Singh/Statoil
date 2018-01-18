@@ -1,5 +1,4 @@
 import json
-import sys
 import numpy as np
 from tensorflow.python.lib.io import file_io
 
@@ -33,40 +32,43 @@ def preprocess(file):
  
 class batch():
     
-    def __init__(self, step, images, labels, mode = 'train'):
+    def __init__(self, images, labels):
 
-        self.mode = 'train'
-        self.step = step
         self.images = images
         self.labels = labels
         
-    def calculate_index(self):
+    def calculate_index(self, mode, step):
         
-        if self.mode == 'train':
+        if mode == 'train':
             
-            part = self.step % 12
-            self.start = (part - 1) * 100
-            self.end = self.start + 99
+            part = step % 12
+            self.start = part * 100
+            self.end = self.start + 100
             
-        elif self.mode == 'eval':
+            
+        elif mode == 'eval':
             
             self.start = 1200
-            self.end =  1399
+            self.end =  1400
             
-        elif self.mode == 'test':     
+            
+        elif mode == 'test':     
            
             self.start = 1400
             self.end =  1604
             
-    def batches(self):
+        else:
+            
+           raise Exception('Mode can only take 3 values : train, eval & test')
+            
+    def batches(self, mode, step= 0):
         
-        self.calculate_index()
-
+        self.calculate_index(mode, step)
+        
+        images_final = np.array(self.images[self.start:self.end], dtype = np.float32)
+        labels_final = np.array(self.labels[self.start:self.end])
        
-        return np.array(images[self.start:self.end]), np.array(labels[self.start:self.end])
-        
-           
-        
+        return images_final, labels_final 
         
         
         

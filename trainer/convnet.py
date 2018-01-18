@@ -8,9 +8,9 @@ def conv2d(arr, num_outputs, kernel_size):
     conv = tf.contrib.layers.conv2d(arr, num_outputs=num_outputs, kernel_size=kernel_size, stride = 1,
                              padding='SAME', activation_fn=tf.nn.relu, 
                              weights_initializer=tf.contrib.layers.xavier_initializer(uniform=False, seed=42),
-                             weights_regularizer=tf.contrib.layers.l2_regularizer,
-                             biases_initializer=tf.zeros_initializer(),
-                             biases_regularizer=tf.contrib.layers.l2_regularizer
+                             weights_regularizer=tf.contrib.layers.l2_regularizer(scale=0.01),
+                             biases_initializer=tf.contrib.layers.xavier_initializer(uniform=False, seed=45),
+                             biases_regularizer=tf.contrib.layers.l2_regularizer(scale=0.01)
                              )
     
     return conv
@@ -54,7 +54,7 @@ def convnet(image_arr, batch_size):
     
     conv8 = conv2d(pool7, num_outputs = 1, kernel_size=1)
     
-    final = tf.reshape(conv8, [batch_size, 1])
+    final = tf.squeeze(conv8, axis=(1, 2))
       
     return final
 
