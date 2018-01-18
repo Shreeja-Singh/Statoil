@@ -20,7 +20,7 @@ output_dir = arguments['output_dir']
 
 with tf.Graph().as_default():
 
-    image_data, label_data = read.preprocess(filename = os.path.join(data_dir, 'train.json'))
+    image_data, label_data = read.preprocess(file = os.path.join(data_dir, 'train.json'))
     batch = read.batch(images = image_data, labels  = label_data)
 #training  
   
