@@ -44,11 +44,11 @@ def convnet(image_arr, batch_size):
     
     pool5 = pool(conv5)  
     
-    conv6 = conv2d(pool5, num_outputs=50, kernel_size=3)
+    conv6 = conv2d(pool5, num_outputs=50, kernel_size=2)
     
     pool6 = pool(conv6) 
     
-    conv7 = conv2d(pool6, num_outputs=50, kernel_size=2)
+    conv7 = conv2d(pool6, num_outputs=50, kernel_size=1)
     
     pool7 = pool(conv7)
     

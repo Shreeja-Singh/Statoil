@@ -37,18 +37,9 @@ with tf.Graph().as_default():
     
     train_op = optimizer.minimize(loss)
     
-    saver = tf.train.Saver()
+    saver = tf.train.Saver(save_relative_paths= True)
     
-#evaluation
-    
-    eval_images, eval_labels = batch.batches(mode= 'eval')
-    eval_image_tensor = tf.placeholder(dtype = tf.float32, shape=(200, 75, 75, 2))
-    eval_label_tensor = tf.placeholder(dtype = tf.int32, shape=(200, 1))
-    
-    eval_pred = tf.cast(tf.round(convnet.convnet(eval_image_tensor, batch_size = 200)), dtype = tf.int32)
-    accuracy = tf.contrib.metrics.accuracy(eval_pred, eval_label_tensor)
-    
-    accuracy_summary = tf.summary.scalar(name = 'accuracy_summary', tensor = accuracy)
+#summary ops
     
     summary_ops = tf.summary.merge_all()
     
@@ -57,7 +48,7 @@ with tf.Graph().as_default():
         
         writer = tf.summary.FileWriter(output_dir, graph=tf.get_default_graph())
         
-        for i in range(50000):
+        for i in range(20000):
             
             images, labels = batch.batches(mode='train', step = i)
             
@@ -65,11 +56,11 @@ with tf.Graph().as_default():
             
             if i % 500 == 0:
                 
-                saver.save(sess,output_dir, global_step = i)
+                saver.save(sess,output_dir, global_step = i, write_meta_graph= False)
                 
             if i % 50 == 1:
-               cost, acc, summary = sess.run([loss, accuracy, summary_ops], {X : images, Y : labels, 
-                                             eval_image_tensor : eval_images, eval_label_tensor : eval_labels}) 
+               cost, summary = sess.run([loss,summary_ops], {X : images, Y : labels}) 
+                                        
                                             
                writer.add_summary(summary, global_step = i)
-               print(cost, acc)
+               print(cost)
