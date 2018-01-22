@@ -27,9 +27,9 @@ with tf.Graph().as_default():
   
     X = tf.placeholder(dtype = tf.float32, shape=(100, 75, 75, 2))
     Y = tf.placeholder(dtype = tf.int32, shape=(100, 1))
-    batch_size = tf.placeholder(dtype = tf.int32)
+    
         
-    output = convnet.convnet(X, batch_size)
+    output = convnet.convnet(X)
     
     loss = convnet.loss(output, Y)
     loss_summary = tf.summary.scalar(name = 'loss_summary', tensor = loss) 
@@ -61,7 +61,7 @@ with tf.Graph().as_default():
             
             images, labels = batch.batches(mode='train', step = i)
             
-            sess.run(train_op, {X : images, Y : labels, batch_size : 100})
+            sess.run(train_op, {X : images, Y : labels})
             
             if i % 500 == 0:
                 

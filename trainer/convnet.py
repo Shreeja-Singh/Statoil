@@ -22,7 +22,7 @@ def pool(conv):
     return pool
 
 
-def convnet(image_arr, batch_size):
+def convnet(image_arr):
     
     conv1 = conv2d(image_arr, num_outputs=50, kernel_size=3)
 
