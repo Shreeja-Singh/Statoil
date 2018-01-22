@@ -36,7 +36,8 @@ with tf.Graph().as_default():
     
     optimizer = tf.train.GradientDescentOptimizer(learning_rate = 0.01)
     
-    train_op = optimizer.minimize(loss)
+    grads = optimizer.compute_gradients(loss)
+    train_op = optimizer.apply_gradients(grads)
     
     saver = tf.train.Saver(save_relative_paths= True)
  
@@ -45,7 +46,10 @@ with tf.Graph().as_default():
     eval_op = convnet.convnet(eval_images) 
     
 #summary ops
-    
+    for index, grad in enumerate(grads):
+        
+        tf.summary.tensor_summary("{}-grad".format(grads[index][1].name), grads[index])
+        
     summary_ops = tf.summary.merge_all()
     
     with tf.Session() as sess:
