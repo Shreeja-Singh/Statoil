@@ -19,6 +19,7 @@ output_dir = arguments['output_dir']
 
 
 with tf.Graph().as_default():
+    tf.set_random_seed(1234)
 
     image_data, label_data = read.preprocess(file = os.path.join(data_dir, 'train.json'))
     batch = read.batch(images = image_data, labels  = label_data)
@@ -33,11 +34,15 @@ with tf.Graph().as_default():
     loss = convnet.loss(output, Y)
     loss_summary = tf.summary.scalar(name = 'loss_summary', tensor = loss) 
     
-    optimizer = tf.train.GradientDescentOptimizer(learning_rate = 0.0001)
+    optimizer = tf.train.GradientDescentOptimizer(learning_rate = 0.01)
     
     train_op = optimizer.minimize(loss)
     
     saver = tf.train.Saver(save_relative_paths= True)
+ 
+#eval_ops    
+    eval_images = tf.placeholder(dtype = tf.float32, name= 'eval_images')
+    eval_op = convnet.convnet(eval_images) 
     
 #summary ops
     
@@ -48,7 +53,7 @@ with tf.Graph().as_default():
         
         writer = tf.summary.FileWriter(output_dir, graph=tf.get_default_graph())
         
-        for i in range(20000):
+        for i in range(10000):
             
             images, labels = batch.batches(mode='train', step = i)
             
